@@ -3,6 +3,7 @@ package mission.config;
 import mission.adapter.in.ProgramTerminal;
 import mission.adapter.out.PlaceCsvDatabase;
 import mission.adapter.out.PositionCsvDatabase;
+import mission.adapter.out.RouteCsvDatabase;
 import mission.adapter.out.Terminal;
 import mission.application.port.in.GetPlaceInputUseCase;
 import mission.application.port.service.InputService;
@@ -28,7 +29,8 @@ public class RuntimeConfig implements AppConfig {
 
     private PredictionService getPredictDurationUseCase() {
         return new PredictionService(
-                new PositionCsvDatabase("position.csv")
+                new PositionCsvDatabase("position.csv"),
+                new RouteCsvDatabase("route.csv")
         );
     }
 }
