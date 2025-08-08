@@ -40,6 +40,9 @@ Adapter의 역할
   - 외부 기술과의 접점, 구현체
   - out/port를 구현
 
+## Diagram
+![img.png](diagram.png)
+
 ## Implementation Strategy
 
 - 인터페이스와 제네릭을 활용해 다형성 확보
@@ -49,30 +52,3 @@ Adapter의 역할
 - Exception Formating
   - Custom Exception의 인자를 개별적으로 포멧팅
   - 예외를 던질 때 파라미터를 적절히 구성하면 예외 단에서 메시지를 가공
-
-
-```mermaid
-flowchart TB
-    subgraph App["Application Level (가장 추상화)"]
-      UI["In Adapter(s)\n(REST/CLI/Event)"]
-      AppCfg["AppConfig\n(조립/의존성 연결)"]
-      UI --> AppCfg
-    end
-
-    subgraph Svc["Service Level (비즈니스 로직)"]
-      InPort["In Port(s)\nUseCase 인터페이스"]
-      Service["Application Service(s)\n(In Port 구현)"]
-      InPort --> Service
-    end
-
-    subgraph Impl["Implementation Level (세부 기술 구현)"]
-      OutPort["Out Port(s)\n외부 의존 계약"]
-      OutAdapters["Out Adapter(s)\nDB/API/Message"]
-      OutAdapters -.implements.-> OutPort
-    end
-
-    UI -->|호출| InPort
-    Service -->|소비| OutPort
-    OutPort -->|연결| OutAdapters
-
-```
