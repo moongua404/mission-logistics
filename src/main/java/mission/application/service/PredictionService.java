@@ -1,4 +1,4 @@
-package mission.application.port.service;
+package mission.application.service;
 
 import java.time.LocalTime;
 import mission.application.domain.exception.PositionNotFoundException;

@@ -2,6 +2,7 @@ package mission.adapter.in;
 
 import java.time.LocalTime;
 import mission.application.domain.model.Place;
+import mission.application.domain.model.dto.OrderRequest;
 import mission.application.port.in.GetPlaceInputUseCase;
 import mission.application.port.in.PredictDurationUseCase;
 
@@ -16,12 +17,8 @@ public class ProgramTerminal {
         this.predictDurationUseCase = predictDurationUseCase;
     }
 
-    public Place getStartPoint() {
-        return getPlaceInputUseCase.getStartPoint();
-    }
-
-    public Place getEndPoint() {
-        return getPlaceInputUseCase.getEndPoint();
+    public OrderRequest getOrderRequest() {
+        return getPlaceInputUseCase.getOrderRequest();
     }
 
     public LocalTime predictDuration(Place startPoint, Place endPoint) {

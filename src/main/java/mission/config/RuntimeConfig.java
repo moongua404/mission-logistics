@@ -6,8 +6,8 @@ import mission.adapter.out.PositionCsvDatabase;
 import mission.adapter.out.RouteCsvDatabase;
 import mission.adapter.out.Terminal;
 import mission.application.port.in.GetPlaceInputUseCase;
-import mission.application.port.service.InputService;
-import mission.application.port.service.PredictionService;
+import mission.application.service.InputService;
+import mission.application.service.PredictionService;
 
 public class RuntimeConfig implements AppConfig {
     @Override

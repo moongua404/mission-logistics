@@ -1,8 +1,7 @@
 package mission.application.port.in;
 
-import mission.application.domain.model.Place;
+import mission.application.domain.model.dto.OrderRequest;
 
 public interface GetPlaceInputUseCase {
-    Place getStartPoint();
-    Place getEndPoint();
+    OrderRequest getOrderRequest();
 }
