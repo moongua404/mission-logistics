@@ -4,17 +4,22 @@ import java.time.LocalTime;
 import mission.application.domain.model.Place;
 import mission.application.domain.model.dto.OrderRequest;
 import mission.application.port.in.GetPlaceInputUseCase;
+import mission.application.port.in.MakeOrderUseCase;
 import mission.application.port.in.PredictDurationUseCase;
+import mission.application.service.OrderService;
 
 public class ProgramTerminal {
     private final GetPlaceInputUseCase getPlaceInputUseCase;
     private final PredictDurationUseCase predictDurationUseCase;
+    private final MakeOrderUseCase makeOrderUseCase;
 
     public ProgramTerminal(
             GetPlaceInputUseCase getPlaceInputUseCase,
-            PredictDurationUseCase predictDurationUseCase) {
+            PredictDurationUseCase predictDurationUseCase,
+            MakeOrderUseCase makeOrderUseCase) {
         this.getPlaceInputUseCase = getPlaceInputUseCase;
         this.predictDurationUseCase = predictDurationUseCase;
+        this.makeOrderUseCase = makeOrderUseCase;
     }
 
     public OrderRequest getOrderRequest() {
@@ -23,5 +28,9 @@ public class ProgramTerminal {
 
     public LocalTime predictDuration(Place startPoint, Place endPoint) {
         return predictDurationUseCase.predictDuration(startPoint, endPoint);
+    }
+
+    public void makeOrder(OrderRequest orderRequest, LocalTime duration) {
+        makeOrderUseCase.makeOrder(orderRequest, duration);
     }
 }

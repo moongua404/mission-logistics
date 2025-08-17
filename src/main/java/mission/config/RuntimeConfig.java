@@ -4,33 +4,40 @@ import mission.adapter.in.ProgramTerminal;
 import mission.adapter.out.PlaceCsvDatabase;
 import mission.adapter.out.PositionCsvDatabase;
 import mission.adapter.out.RouteCsvDatabase;
-import mission.adapter.out.Terminal;
+import mission.adapter.out.ClientTerminal;
 import mission.application.port.in.GetPlaceInputUseCase;
+import mission.application.port.in.MakeOrderUseCase;
 import mission.application.service.InputService;
+import mission.application.service.OrderService;
 import mission.application.service.PredictionService;
 
 public class RuntimeConfig implements AppConfig {
+    private final ClientTerminal clientTerminal = new ClientTerminal();
+    private final PlaceCsvDatabase placeCsvDatabase = new PlaceCsvDatabase("place.csv");
+    private final PositionCsvDatabase positionCsvDatabase = new PositionCsvDatabase("position.csv");
+    private final RouteCsvDatabase routeCsvDatabase = new RouteCsvDatabase("route.csv");
+    private final InputService inputService = new InputService(clientTerminal, clientTerminal, placeCsvDatabase);
+    private final PredictionService predictionService = new PredictionService(positionCsvDatabase, routeCsvDatabase);
+    private final OrderService orderService = new OrderService(clientTerminal, clientTerminal);
+
     @Override
     public ProgramTerminal getProgramTerminal() {
         return new ProgramTerminal(
                 getGetPlaceInputUseCase(),
-                getPredictDurationUseCase()
+                getPredictDurationUseCase(),
+                getMakeOrderUseCase()
         );
     }
 
     private GetPlaceInputUseCase getGetPlaceInputUseCase() {
-        Terminal terminal = new Terminal();
-        return new InputService(
-                terminal,
-                terminal,
-                new PlaceCsvDatabase("place.csv")
-        );
+        return inputService;
     }
 
     private PredictionService getPredictDurationUseCase() {
-        return new PredictionService(
-                new PositionCsvDatabase("position.csv"),
-                new RouteCsvDatabase("route.csv")
-        );
+        return predictionService;
+    }
+
+    public MakeOrderUseCase getMakeOrderUseCase() {
+        return orderService;
     }
 }
