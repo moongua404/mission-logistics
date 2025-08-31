@@ -6,7 +6,6 @@ import mission.application.domain.model.dto.OrderRequest;
 import mission.application.port.in.GetPlaceInputUseCase;
 import mission.application.port.in.MakeOrderUseCase;
 import mission.application.port.in.PredictDurationUseCase;
-import mission.application.service.OrderService;
 
 public class ProgramTerminal {
     private final GetPlaceInputUseCase getPlaceInputUseCase;

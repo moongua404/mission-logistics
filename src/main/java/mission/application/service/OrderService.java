@@ -12,11 +12,14 @@ import mission.application.domain.enums.MessageConstants;
 import mission.application.domain.model.dto.OrderRequest;
 import mission.application.port.in.MakeOrderUseCase;
 import mission.application.port.out.InputPort;
+import mission.application.port.out.LogPort;
 import mission.application.port.out.LoggerPort;
 
 public class OrderService implements MakeOrderUseCase {
     private final LoggerPort logger;
     private final InputPort input;
+    private final LogPort logPort;
+
 
     private final BlockingQueue<Task<?>> queue;
     private final Semaphore slots;
@@ -31,9 +34,10 @@ public class OrderService implements MakeOrderUseCase {
         Task(Callable<T> c, CompletableFuture<T> f) { this.callable = c; this.future = f; }
     }
 
-    public OrderService(LoggerPort logger, InputPort input) {
+    public OrderService(LoggerPort logger, InputPort input, LogPort logPort) {
         this.logger = logger;
         this.input = input;
+        this.logPort = logPort;
         this.queue = new LinkedBlockingQueue<>();
         this.slots = new Semaphore(5, true);
         this.dispatcher = new Thread(this::dispatchLoop, "order-dispatcher");
@@ -81,6 +85,8 @@ public class OrderService implements MakeOrderUseCase {
             Thread.sleep(duration.toSecondOfDay() * 1000L / 180);
 
             logger.print(MessageConstants.DELIVERY_COMPLETE);
+            logPort.log(orderRequest.ordererName(), orderRequest.startPlace().name(),
+                    orderRequest.endPlace().name(), duration);
             return null;
         });
     }
